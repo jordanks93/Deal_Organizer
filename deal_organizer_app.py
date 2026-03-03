@@ -16,12 +16,12 @@ from tkinter import filedialog, messagebox
 # ===== FOLDER STRUCTURE =====
 FOLDER_STRUCTURE = {
     "01_Credit_Writeup": ["credit submission for customer"],
-    "02_Application": ["application", "app"],
+    "02_Application": ["application"],
     "03_Invoice": ["invoice"],
-    "04_Sales_Order": ["sales order"],
-    "05_PayNet": ["paynet", "master score"],
+    "04_Spec_Sheet": ["specs", "spec sheet", "specifications"],
+    "05_PayNet": ["paynet", "Paynet"],
     "06_Personal_Credit": ["experian", "transunion", "equifax", "fico"],
-    "07_Financials": ["balance sheet", "income statement", "financial statement"],
+    "07_Financials": ["balance sheet", "income statement", "Profit and Loss", "cash flow", "financial statement", "financials"],
     "08_Tax_Returns": ["1120", "1065", "schedule c", "tax return"],
     "09_Personal_Financial_Statement": ["personal financial statement", "pfs"],
     "10_Bank_Statements": ["bank statement"],
