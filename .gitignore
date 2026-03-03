@@ -1,3 +1,7 @@
+# Manual Ignore List for Python Projects
+Test Deals/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
