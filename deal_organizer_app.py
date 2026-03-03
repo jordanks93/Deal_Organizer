@@ -15,7 +15,7 @@ from tkinter import filedialog, messagebox
 
 # ===== FOLDER STRUCTURE =====
 FOLDER_STRUCTURE = {
-    "01_Credit_Writeup": ["writeup", "credit memo"],
+    "01_Credit_Writeup": ["credit submission for customer"],
     "02_Application": ["application", "app"],
     "03_Invoice": ["invoice"],
     "04_Sales_Order": ["sales order"],
