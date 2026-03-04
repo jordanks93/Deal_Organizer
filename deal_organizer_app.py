@@ -98,9 +98,6 @@ def preconvert_all_files(folder):
         if ext == ".docx":
             convert_docx_to_pdf(full_path, output_pdf)
 
-        elif ext in [".xlsx", ".xls"]:
-            convert_xlsx_to_pdf(full_path, output_pdf)
-
         elif ext == ".txt":
             convert_txt_to_pdf(full_path, output_pdf)
 
