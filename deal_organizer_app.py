@@ -16,17 +16,16 @@ from tkinter import filedialog, messagebox
 
 FOLDER_STRUCTURE = {
     "01_Credit_Writeup": ["credit submission for customer"],
-    "02_Application": ["application"],
-    "03_Invoice": ["invoice"],
+    "02_Application": ["credit application", "business application", "customer information", "exact legal name of business"],
+    "03_Invoice": ["invoice", "sales order", "bill of sale", "purchase agreement"],
     "04_Spec_Sheet": ["specs", "spec sheet", "specifications"],
     "05_PayNet": ["paynet", "Paynet"],
     "06_Personal_Credit": ["experian", "transunion", "equifax", "fico"],
     "07_Financials": ["balance sheet", "income statement", "Profit and Loss", "cash flow", "financial statement", "financials"],
     "08_Tax_Returns": ["1120", "1065", "schedule c", "tax return"],
     "09_Personal_Financial_Statement": ["personal financial statement", "pfs"],
-    "10_Bank_Statements": ["bank statement"],
-    "11_Insurance": ["insurance"],
-    "12_Misc": []
+    "10_Bank_Statements": ["ending balance", "starting balance", "deposits", "withdrawals"],
+    "11_Misc": []
 }
 
 selected_folder = ""
@@ -79,19 +78,22 @@ def preconvert_all_files(folder):
         if not os.path.isfile(full_path):
             continue
 
-        name, ext = os.path.splitext(file)
-        ext = ext.lower()
+        try:
+            name, ext = os.path.splitext(file)
+            ext = ext.lower()
 
-        output_pdf = os.path.join(folder, name + ".pdf")
+            output_pdf = os.path.join(folder, name + ".pdf")
 
-        if ext == ".docx":
-            convert_docx_to_pdf(full_path, output_pdf)
+            if ext == ".docx":
+                convert_docx_to_pdf(full_path, output_pdf)
 
-        elif ext == ".txt":
-            convert_txt_to_pdf(full_path, output_pdf)
+            elif ext == ".txt":
+                convert_txt_to_pdf(full_path, output_pdf)
 
-        elif ext in [".jpg", ".jpeg", ".png"]:
-            convert_image_to_pdf(full_path, output_pdf)
+            elif ext in [".jpg", ".jpeg", ".png"]:
+                convert_image_to_pdf(full_path, output_pdf)
+        except Exception as e:
+            raise Exception(f"Failed to convert file '{file}': {str(e)}")
 
 # ==============================
 # CLASSIFICATION
@@ -104,18 +106,21 @@ def get_pdf_text(path):
             for page in pdf.pages[:2]:
                 text += page.extract_text() or ""
         return text.lower()
-    except:
-        return ""
+    except Exception as e:
+        raise Exception(f"Failed to extract text from PDF '{os.path.basename(path)}': {str(e)}")
 
 def classify_file(file_name, full_path):
-    combined = file_name.lower() + " " + get_pdf_text(full_path)
+    try:
+        combined = file_name.lower() + " " + get_pdf_text(full_path)
+    except Exception as e:
+        raise Exception(f"Failed to classify file '{file_name}': {str(e)}")
 
     for folder, keywords in FOLDER_STRUCTURE.items():
         for keyword in keywords:
             if keyword in combined:
                 return folder
 
-    return "12_Misc"
+    return "11_Misc"
 
 def organize_pdfs(folder):
     for subfolder in FOLDER_STRUCTURE:
@@ -125,11 +130,14 @@ def organize_pdfs(folder):
         full_path = os.path.join(folder, file)
 
         if os.path.isfile(full_path) and file.lower().endswith(".pdf"):
-            category = classify_file(file, full_path)
-            destination = os.path.join(folder, category, file)
+            try:
+                category = classify_file(file, full_path)
+                destination = os.path.join(folder, category, file)
 
-            if not os.path.exists(destination):
-                shutil.move(full_path, destination)
+                if not os.path.exists(destination):
+                    shutil.move(full_path, destination)
+            except Exception as e:
+                raise Exception(f"Failed to organize PDF '{file}': {str(e)}")
 
 # ==============================
 # DIVIDER + COMBINE
@@ -170,11 +178,14 @@ def combine_pdfs(folder):
 
         for file in files:
             pdf_path = os.path.join(section_path, file)
-            reader = PdfReader(pdf_path)
+            try:
+                reader = PdfReader(pdf_path)
 
-            for page in reader.pages:
-                writer.add_page(page)
-                current_page += 1
+                for page in reader.pages:
+                    writer.add_page(page)
+                    current_page += 1
+            except Exception as e:
+                raise Exception(f"Failed to process PDF '{file}' in section '{section}': {str(e)}")
 
     output_file = os.path.join(folder, deal_name + "_PRINT_PACKAGE.pdf")
     with open(output_file, "wb") as f:
