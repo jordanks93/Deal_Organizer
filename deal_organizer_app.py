@@ -17,7 +17,7 @@ from tkinter import filedialog, messagebox
 FOLDER_STRUCTURE = {
     "01_Credit_Writeup": ["credit submission for customer"],
     "02_Application": ["credit application", "business application", "customer information", "exact legal name of business"],
-    "03_Invoice": ["invoice", "sales order", "bill of sale", "purchase agreement"],
+    "03_Invoice": ["invoice", "sales order", "bill of sale", "purchase agreement", "Selling Price:"],
     "04_Spec_Sheet": ["specs", "spec sheet", "specifications"],
     "05_PayNet": ["paynet", "Paynet"],
     "06_Personal_Credit": ["experian", "transunion", "equifax", "fico"],
