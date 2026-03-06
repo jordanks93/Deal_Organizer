@@ -47,17 +47,6 @@ def convert_docx_to_pdf(input_path, output_path):
         $word.Quit();"""
     ])
 
-def convert_xlsx_to_pdf(input_path, output_path):
-    subprocess.run([
-        "powershell",
-        "-Command",
-        f"""$excel = New-Object -ComObject Excel.Application;
-        $excel.Visible = $false;
-        $workbook = $excel.Workbooks.Open('{input_path}');
-        $workbook.ExportAsFixedFormat(0, '{output_path}');
-        $workbook.Close($false);
-        $excel.Quit();"""
-    ])
 
 def convert_txt_to_pdf(input_path, output_path):
     from reportlab.platypus import SimpleDocTemplate, Paragraph
